@@ -14,9 +14,12 @@ class Message {
   factory Message.fromJson(Map<String, dynamic> json) =>
       _$MessageFromJson(json);
 
-  static Future<List<Message>> browse() async {
-    http.Response response =
-        await http.get('http://yapi.xiya.vip/mock/91/messages');
+  static Future<List<Message>> browse({status = 'Important'}) async {
+    var url = status == 'Important'
+        ? 'http://yapi.xiya.vip/mock/91/messages/important'
+        : 'http://yapi.xiya.vip/mock/91/messages/other';
+
+    http.Response response = await http.get(url);
 
     // await Future.delayed(Duration(seconds: 2));
 
