@@ -109,6 +109,7 @@ class _MessageListState extends State<MessageList> {
               itemCount: messages.length,
             );
         }
+        return Container();
       },
     );
   }

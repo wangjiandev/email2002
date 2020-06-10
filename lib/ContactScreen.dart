@@ -27,6 +27,8 @@ class ContactScreen extends StatelessWidget {
                 }),
             backgroundColor: Colors.red,
           ),
+          IconButton(icon: Icon(Icons.search), onPressed: () {}),
+          SizedBox(width: 16),
         ],
       ),
       drawer: AppDrawer(),
@@ -55,6 +57,7 @@ class ContactScreen extends StatelessWidget {
                 itemCount: contacts?.length ?? 0,
               );
           }
+          return Container();
         },
       ),
     );
