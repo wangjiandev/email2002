@@ -3,6 +3,7 @@ import 'package:emailapp2020/contact_manager.dart';
 import 'package:flutter/material.dart';
 
 import 'provider.dart';
+import 'ugly_provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,7 +20,9 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.indigo,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: App(),
+        home: UglyProvider(
+          child: App(),
+        ),
       ),
     );
   }

@@ -1,4 +1,3 @@
-import 'package:emailapp2020/contact_manager.dart';
 import 'package:flutter/material.dart';
 
 class Provider<T> extends InheritedWidget {
