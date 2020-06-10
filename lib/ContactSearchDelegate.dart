@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'contact_list_builder.dart';
-import 'contact_manager.dart';
 import 'model/contact.dart';
 
 class ContactSearchDelegate extends SearchDelegate {
-  final ContactManager manager;
-
-  ContactSearchDelegate({this.manager});
-
   @override
   String get searchFieldLabel => '搜索';
 
@@ -42,7 +37,7 @@ class ContactSearchDelegate extends SearchDelegate {
       );
     }
     return ContactListBuilder(
-      stream: manager.filteredCollection(query: query),
+      // stream: manager.filteredCollection(query: query),
       builder: (context, contacts) {
         return ListView.separated(
           itemBuilder: (context, index) {
