@@ -33,57 +33,71 @@ class _MessageComposeState extends State<MessageCompose> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Observer(
+                StreamBuilder<String>(
                   stream: manager.email$,
-                  onSuccess: (context, data) {
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
                     return TextField(
                       onChanged: manager.inEmail.add,
                       decoration: InputDecoration(
                         labelText: '收件人',
                         labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    );
-                  },
-                  onError: (context, error) {
-                    return TextField(
-                      onChanged: manager.inEmail.add,
-                      decoration: InputDecoration(
-                        labelText: '收件人',
-                        labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                        errorText: error,
+                        errorText: snapshot.error,
                       ),
                     );
                   },
                 ),
-                TextFormField(
-                  onSaved: (value) => subject = value,
-                  decoration: InputDecoration(
-                    labelText: '主题',
-                    labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                  ),
+                StreamBuilder<String>(
+                  stream: manager.subject$,
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    return TextField(
+                      onChanged: manager.inSubject.add,
+                      decoration: InputDecoration(
+                        labelText: '主题',
+                        labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                        errorText: snapshot.error,
+                      ),
+                    );
+                  },
                 ),
                 Divider(),
-                TextFormField(
-                  onSaved: (value) => body = value,
-                  decoration: InputDecoration(
-                    labelText: '内容',
-                    labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  maxLines: 15,
+                StreamBuilder<String>(
+                  stream: manager.body$,
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    return TextField(
+                      onChanged: manager.inBody.add,
+                      decoration: InputDecoration(
+                        labelText: '内容',
+                        labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                        errorText: snapshot.error,
+                      ),
+                      maxLines: 15,
+                    );
+                  },
                 ),
                 ListTile(
-                  title: RaisedButton(
-                    child: Text(
-                      'Send',
-                    ),
-                    onPressed: () {
-                      this.key.currentState.save();
-                      if (this.key.currentState.validate()) {
-                        Message message = Message(subject, body);
-                        Navigator.pop(context, message);
-                      }
-                    },
-                  ),
+                  title: StreamBuilder<Object>(
+                      stream: manager.isFormValid$,
+                      builder: (context, snapshot) {
+                        return RaisedButton(
+                          child: Text(
+                            'Send',
+                          ),
+                          onPressed: () {
+                            if (snapshot.hasData) {
+                              Message message = manager.submit();
+                              Navigator.pop(context, message);
+                            }
+                            // this.key.currentState.save();
+                            // if (this.key.currentState.validate()) {
+                            //   Message message = Message(subject, body);
+                            //   Navigator.pop(context, message);
+                            // }
+                          },
+                        );
+                      }),
                 ),
               ],
             ),
