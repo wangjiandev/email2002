@@ -1,5 +1,9 @@
 import 'package:emailapp2020/message.dart';
+import 'package:emailapp2020/observer.dart';
+import 'package:emailapp2020/provider.dart';
 import 'package:flutter/material.dart';
+
+import 'manager/message_form_manager.dart';
 
 class MessageCompose extends StatefulWidget {
   @override
@@ -15,6 +19,8 @@ class _MessageComposeState extends State<MessageCompose> {
 
   @override
   Widget build(BuildContext context) {
+    MesssageFormManager manager =
+        Provider.of(context).fetch(MesssageFormManager);
     return Scaffold(
       appBar: AppBar(
         title: Text("Message Compose"),
@@ -27,18 +33,32 @@ class _MessageComposeState extends State<MessageCompose> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                TextFormField(
-                  validator: (value) => !value.contains('@') ? '请正确填写邮箱' : null,
-                  onSaved: (value) => to = value,
-                  decoration: InputDecoration(
-                    labelText: 'TO',
-                    labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                  ),
+                Observer(
+                  stream: manager.email$,
+                  onSuccess: (context, data) {
+                    return TextField(
+                      onChanged: manager.inEmail.add,
+                      decoration: InputDecoration(
+                        labelText: '收件人',
+                        labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    );
+                  },
+                  onError: (context, error) {
+                    return TextField(
+                      onChanged: manager.inEmail.add,
+                      decoration: InputDecoration(
+                        labelText: '收件人',
+                        labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                        errorText: error,
+                      ),
+                    );
+                  },
                 ),
                 TextFormField(
                   onSaved: (value) => subject = value,
                   decoration: InputDecoration(
-                    labelText: 'SUBJECT',
+                    labelText: '主题',
                     labelStyle: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -46,7 +66,7 @@ class _MessageComposeState extends State<MessageCompose> {
                 TextFormField(
                   onSaved: (value) => body = value,
                   decoration: InputDecoration(
-                    labelText: 'BODY',
+                    labelText: '内容',
                     labelStyle: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   maxLines: 15,
