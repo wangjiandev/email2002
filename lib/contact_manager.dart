@@ -24,7 +24,9 @@ class ContactManager {
 
   ContactManager() {
     // 监听关键字变化
-    _filterSubject.stream.listen((filter) async {
+    _filterSubject
+        .debounceTime(Duration(milliseconds: 500))
+        .listen((filter) async {
       // 根据关键字过滤联系人列表
       var contacts = await ContactService.browse(filter: filter);
       // 将新联系人列表发送到联系人列表流
