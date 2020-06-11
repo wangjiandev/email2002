@@ -33,14 +33,18 @@ class ContactSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
+    ContactManager manager = Provider.of(context).fetch(ContactManager);
+
     if (query.length < 1) {
       return Center(
         child: Text('最少输入1个字符'),
       );
     }
-    ContactManager manager = Provider.of(context).fetch(ContactManager);
+
+    manager.inFilter.add(query);
+
     return ContactListBuilder(
-      stream: manager.browse$(filter: query),
+      stream: manager.browse$,
       builder: (context, contacts) {
         return ListView.separated(
           itemBuilder: (context, index) {
