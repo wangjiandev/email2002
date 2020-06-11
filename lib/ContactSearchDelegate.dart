@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'contact_list_builder.dart';
+import 'contact_manager.dart';
 import 'model/contact.dart';
+import 'provider.dart';
 
 class ContactSearchDelegate extends SearchDelegate {
   @override
@@ -36,8 +38,9 @@ class ContactSearchDelegate extends SearchDelegate {
         child: Text('最少输入1个字符'),
       );
     }
+    ContactManager manager = Provider.of(context).fetch(ContactManager);
     return ContactListBuilder(
-      // stream: manager.filteredCollection(query: query),
+      stream: manager.filteredCollection(query: query),
       builder: (context, contacts) {
         return ListView.separated(
           itemBuilder: (context, index) {
