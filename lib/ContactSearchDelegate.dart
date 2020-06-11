@@ -40,7 +40,7 @@ class ContactSearchDelegate extends SearchDelegate {
     }
     ContactManager manager = Provider.of(context).fetch(ContactManager);
     return ContactListBuilder(
-      stream: manager.filteredCollection(query: query),
+      stream: manager.browse$(filter: query),
       builder: (context, contacts) {
         return ListView.separated(
           itemBuilder: (context, index) {

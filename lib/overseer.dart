@@ -1,3 +1,4 @@
+import 'counter_manager.dart';
 import 'contact_manager.dart';
 
 class Overseer {
@@ -5,6 +6,7 @@ class Overseer {
 
   Overseer() {
     register(ContactManager, ContactManager());
+    register(CounterManager, CounterManager());
   }
 
   register(name, object) {

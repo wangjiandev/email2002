@@ -7,16 +7,17 @@ import 'package:rxdart/rxdart.dart';
 class ContactManager {
   // StreamController 不能多次订阅
   // BehaviorSubject 允许多次订阅
-  final BehaviorSubject<int> _contactCounter = BehaviorSubject<int>();
-  Stream<int> get contactCounter => _contactCounter.stream;
+  final BehaviorSubject<int> _contactCount = BehaviorSubject<int>();
 
-  Stream<List<Contact>> get contactListNow =>
-      Stream.fromFuture(ContactService.browse());
-
-  Stream<List<Contact>> filteredCollection({query}) =>
-      Stream.fromFuture(ContactService.browse(query: query));
+  Stream<int> get count$ => _contactCount.stream;
+  Stream<List<Contact>> browse$({String filter}) =>
+      Stream.fromFuture(ContactService.browse(filter: filter));
 
   ContactManager() {
-    contactListNow.listen((list) => _contactCounter.add(list.length));
+    browse$().listen((list) => _contactCount.add(list.length));
+  }
+
+  void dispose() {
+    _contactCount.close();
   }
 }

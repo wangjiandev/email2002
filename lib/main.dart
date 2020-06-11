@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'overseer.dart';
 import 'provider.dart';
-import 'ugly_provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,9 +19,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.indigo,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: UglyProvider(
-          child: App(),
-        ),
+        home: App(),
       ),
     );
   }

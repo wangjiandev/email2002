@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:emailapp2020/ugly_provider.dart';
+
+import 'counter_manager.dart';
+import 'provider.dart';
 
 class FabButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var state = UglyProvider.of(context);
+    CounterManager manager = Provider.of(context).fetch(CounterManager);
     return FloatingActionButton(
       child: Icon(Icons.add),
-      onPressed: state.increment,
+      onPressed: manager.increment,
     );
   }
 }
